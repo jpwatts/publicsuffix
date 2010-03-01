@@ -196,10 +196,8 @@ class SuffixList(list):
     >>> psl.parent('www.example.com')
     u'example.com'
 
-    >>> psl.parent('example.com')
-
-    # >>> psl.parent('example.com') is None
-    # True
+    >>> psl.parent('example.com') is None
+    True
 
     """
     def __init__(self, seq=None):

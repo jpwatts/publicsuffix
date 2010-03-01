@@ -224,12 +224,14 @@ class SuffixList(list):
             super(SuffixList, self).insert(i, Rule(s))
 
     def domain(self, host):
+        """Return the registered domain name for a given host name."""
         host = _normalize(host)
         tld = self.tld(host)
         if host != tld:
             return u'%s.%s' % (host[:-len(tld)-1].rsplit('.', 1)[-1], tld)
 
     def iter_parents(self, host):
+        """Iterate over a host's parents, stopping at the registered domain."""
         host = _normalize(host)
         domain = self.domain(host)
         if host != domain:
@@ -240,15 +242,16 @@ class SuffixList(list):
             yield domain
 
     def parent(self, host):
-        try:
-            return self.parents(host)[0]
-        except IndexError:
-            pass
+        """Return a host's parent."""
+        for parent in self.iter_parents(host):
+            return parent
 
     def parents(self, host):
+        """Return a list of a host's parents, ordered by specificity."""
         return list(self.iter_parents(host))
 
     def tld(self, host):
+        """Return the top-level domain for a given host name."""
         host = _normalize(host)
         matches = sorted(r for r in self if r.match(host))
         if matches:
@@ -264,9 +267,11 @@ class SuffixList(list):
         return host.rsplit('.', 1)[-1]
 
 
-def public_suffix_list(url=EFFECTIVE_TLD_NAMES, cache=None):
-    import httplib2
-    _response, content = httplib2.Http(cache).request(url)
+def public_suffix_list(url=EFFECTIVE_TLD_NAMES, headers=None, http=None):
+    if http is None:
+        import httplib2
+        http = httplib2.Http()
+    _response, content = http.request(url, headers=headers)
     return SuffixList(content.splitlines())
 
 

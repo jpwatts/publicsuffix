@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-EFFECTIVE_TLD_NAMES = 'http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/src/effective_tld_names.dat?raw=1'
+EFFECTIVE_TLD_NAMES = 'http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/effective_tld_names.dat?raw=1'
 
 
 def _normalize(s):

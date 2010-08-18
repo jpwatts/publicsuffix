@@ -43,7 +43,7 @@ For example, to cache the PSL for one day::
 
     >>> psl = publicsuffix.public_suffix_list(
     ...     http=httplib2.Http('/path/to/cache'),
-    ...     headers={'cache-control': 'max-age=%d' % 60*60*24}
+    ...     headers={'cache-control': 'max-age=%d' % (60*60*24)}
     ... )
 
 
